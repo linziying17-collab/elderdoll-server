@@ -23,10 +23,10 @@ app.post('/api/alert', async (req, res) => {
         template_id: templateId,
         page: 'pages/index/index',
         data: {
-          thing1: { value: message || '老人可能跌倒' },
-          time2: { value: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }) },
-          thing3: { value: type || '跌倒告警' }
-        }
+  thing1: { value: message || '老人可能跌倒' },
+  thing2: { value: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }) },
+  thing3: { value: type || '跌倒告警' }
+}
       })
     });
     const msgData = await msgRes.json();
