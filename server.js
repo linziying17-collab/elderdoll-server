@@ -23,9 +23,10 @@ app.post('/api/alert', async (req, res) => {
         template_id: templateId,
         page: 'pages/index/index',
         data: {
-  thing1: { value: message || '老人可能跌倒' },
-  thing2: { value: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }) },
-  thing3: { value: type || '跌倒告警' }
+  time1: { value: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }) },
+  thing5: { value: '家中' },
+  phone_number6: { value: '请立即联系家人' },
+  thing4: { value: message || '老人可能跌倒，请立即查看！' }
 }
       })
     });
