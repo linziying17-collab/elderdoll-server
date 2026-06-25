@@ -1,4 +1,7 @@
 module.exports = async function handler(req, res) {
+  // 允许跨域
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -11,7 +14,6 @@ module.exports = async function handler(req, res) {
   const openId = process.env.WX_OPEN_ID;
 
   try {
-    // 获取 access_token
     const tokenRes = await fetch(
       `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appId}&secret=${appSecret}`
     );
@@ -19,10 +21,9 @@ module.exports = async function handler(req, res) {
     const accessToken = tokenData.access_token;
 
     if (!accessToken) {
-      return res.status(500).json({ error: 'Failed to get access token', detail: tokenData });
+      return res.status(500).json({ error: 'Failed to get token', detail: tokenData });
     }
 
-    // 发送订阅消息
     const msgRes = await fetch(
       `https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=${accessToken}`,
       {
@@ -33,8 +34,8 @@ module.exports = async function handler(req, res) {
           template_id: templateId,
           page: 'pages/index/index',
           data: {
-            thing1: { value: message || '老人可能跌倒，请立即查看！' },
-            time2:  { value: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }) },
+            thing1: { value: message || '老人可能跌倒' },
+            time2: { value: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' }) },
             thing3: { value: type || '跌倒告警' }
           }
         })
